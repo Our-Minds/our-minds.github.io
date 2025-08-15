@@ -11,15 +11,46 @@
     <meta property="og:description" content="SAS.7-Our Minds - Mental Health Platform" />
     <meta property="og:type" content="website" />
 
+    <!-- GitHub Pages SPA redirect decode script - runs before React app -->
+    <script>
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+        
+        // Check if we have an encoded path from 404.html redirect
+        var query = window.location.search;
+        if (query.startsWith('?p=/')) {
+          var route = decodeURIComponent(query.slice(4));
+          
+          // Extract hash if present
+          var hashIndex = route.indexOf('#');
+          var hash = hashIndex >= 0 ? route.slice(hashIndex) : '';
+          var pathAndSearch = hashIndex >= 0 ? route.slice(0, hashIndex) : route;
+          
+          // Extract search params if present
+          var searchIndex = pathAndSearch.indexOf('&');
+          var pathname = searchIndex >= 0 ? pathAndSearch.slice(0, searchIndex) : pathAndSearch;
+          var search = searchIndex >= 0 ? '?' + pathAndSearch.slice(searchIndex + 1) : '';
+          
+          // Restore the original URL
+          var newUrl = pathname + search + hash;
+          history.replaceState(null, null, newUrl);
+        }
+      })();
+    </script>
     
-    <script type="module" crossorigin src="/assets/index-C-PnWbYW.js"></script>
+    <script type="module" crossorigin src="/assets/index-BGZJ43Tf.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-CsPsgsBv.js">
     <link rel="modulepreload" crossorigin href="/assets/ui-CqCCPo1Y.js">
     <link rel="modulepreload" crossorigin href="/assets/router-J7O6VmFe.js">
     <link rel="modulepreload" crossorigin href="/assets/query-2sWkym1G.js">
     <link rel="modulepreload" crossorigin href="/assets/supabase-DoZrjKS4.js">
     <link rel="modulepreload" crossorigin href="/assets/utils-EL5wpLGY.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CDxvVdjh.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-B961lkmG.css">
   </head>
 
   <body>

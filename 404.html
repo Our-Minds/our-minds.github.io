@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // GitHub Pages 404 redirect script for SPA
+      // Captures the current URL and redirects to index.html with encoded path
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+          return;
+        }
+        
+        // Encode the current path info for index.html to decode
+        var l = location;
+        var encodedPath = l.pathname.slice(1) + (l.search ? '&' + l.search.slice(1) : '') + l.hash;
+        
+        // Redirect to root with encoded path as query parameter
+        location.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
+          '/?p=/' + encodedPath);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to app...</p>
+  </body>
+</html>
