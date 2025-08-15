@@ -14,43 +14,54 @@
     <!-- GitHub Pages SPA redirect decode script - runs before React app -->
     <script>
       (function() {
+        // Handle session storage redirect from 404.html
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
         
         if (redirect && redirect !== location.href) {
           history.replaceState(null, null, redirect);
+          return;
         }
         
         // Check if we have an encoded path from 404.html redirect
-        var query = window.location.search;
-        if (query.startsWith('?p=/')) {
-          var route = decodeURIComponent(query.slice(4));
+        var search = window.location.search;
+        if (search.startsWith('?p=/')) {
+          var route = decodeURIComponent(search.slice(4));
           
-          // Extract hash if present
-          var hashIndex = route.indexOf('#');
-          var hash = hashIndex >= 0 ? route.slice(hashIndex) : '';
-          var pathAndSearch = hashIndex >= 0 ? route.slice(0, hashIndex) : route;
-          
-          // Extract search params if present
-          var searchIndex = pathAndSearch.indexOf('&');
-          var pathname = searchIndex >= 0 ? pathAndSearch.slice(0, searchIndex) : pathAndSearch;
-          var search = searchIndex >= 0 ? '?' + pathAndSearch.slice(searchIndex + 1) : '';
-          
-          // Restore the original URL
-          var newUrl = pathname + search + hash;
-          history.replaceState(null, null, newUrl);
+          // Clean up the route - handle various edge cases
+          if (route.startsWith('/')) {
+            // Extract hash if present
+            var hashIndex = route.indexOf('#');
+            var hash = hashIndex >= 0 ? route.slice(hashIndex) : '';
+            var pathAndSearch = hashIndex >= 0 ? route.slice(0, hashIndex) : route;
+            
+            // Extract search params if present (they come after &)
+            var searchIndex = pathAndSearch.indexOf('&');
+            var pathname = searchIndex >= 0 ? pathAndSearch.slice(0, searchIndex) : pathAndSearch;
+            var searchParams = searchIndex >= 0 ? '?' + pathAndSearch.slice(searchIndex + 1) : '';
+            
+            // Restore the original URL
+            var newUrl = pathname + searchParams + hash;
+            history.replaceState(null, null, newUrl);
+            
+            // Remove the redirect parameter from URL
+            if (window.location.search.includes('p=/')) {
+              var cleanUrl = window.location.origin + newUrl;
+              window.location.replace(cleanUrl);
+            }
+          }
         }
       })();
     </script>
     
-    <script type="module" crossorigin src="/assets/index-BGZJ43Tf.js"></script>
+    <script type="module" crossorigin src="/assets/index-Cz0ZLwjf.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-CsPsgsBv.js">
     <link rel="modulepreload" crossorigin href="/assets/ui-CqCCPo1Y.js">
     <link rel="modulepreload" crossorigin href="/assets/router-J7O6VmFe.js">
     <link rel="modulepreload" crossorigin href="/assets/query-2sWkym1G.js">
     <link rel="modulepreload" crossorigin href="/assets/supabase-DoZrjKS4.js">
     <link rel="modulepreload" crossorigin href="/assets/utils-EL5wpLGY.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-B961lkmG.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-D36jcmTT.css">
   </head>
 
   <body>

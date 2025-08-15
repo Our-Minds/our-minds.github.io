@@ -4,24 +4,35 @@
     <meta charset="UTF-8" />
     <title>Redirecting...</title>
     <script>
-      // GitHub Pages 404 redirect script for SPA
-      // Captures the current URL and redirects to index.html with encoded path
+      // Enhanced GitHub Pages 404 redirect script for SPA
       (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+        // Check if we're already being redirected
+        if (sessionStorage.redirect) {
           return;
         }
         
-        // Encode the current path info for index.html to decode
         var l = location;
-        var encodedPath = l.pathname.slice(1) + (l.search ? '&' + l.search.slice(1) : '') + l.hash;
+        var path = l.pathname;
+        
+        // Don't redirect if we're already at root
+        if (path === '/' || path === '') {
+          return;
+        }
+        
+        // Store the full path info for later restoration
+        var fullPath = path + (l.search || '') + (l.hash || '');
+        
+        // Use session storage as backup
+        sessionStorage.redirect = l.href;
+        
+        // Encode the current path info for index.html to decode
+        var encodedPath = encodeURIComponent(fullPath);
         
         // Redirect to root with encoded path as query parameter
-        location.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
-          '/?p=/' + encodedPath);
+        var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
+          '/?p=/' + encodedPath;
+        
+        window.location.replace(redirectUrl);
       })();
     </script>
   </head>
