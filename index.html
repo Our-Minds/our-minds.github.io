@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Minds</title>
+    <meta name="description" content="Mental Health Platform for sharing stories and connecting with consultants" />
+    <meta name="author" content="Bornelabs" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4d7c0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Our Minds" />
+    <meta name="msapplication-TileColor" content="#4d7c0f" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- PWA Icons -->
+    <link rel="icon" href="/icons/pwa-icon-512.jpg" type="image/jpeg" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/pwa-icon-512.jpg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/pwa-icon-512.jpg" />
+
+    <meta property="og:title" content="Our Minds" />
+    <meta property="og:description" content="Mental Health Platform for sharing stories and connecting with consultants" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icons/pwa-icon-512.jpg" />
+
+    <!-- GitHub Pages SPA redirect decode script - runs before React app -->
+    <script>
+      (function() {
+        // Handle session storage redirect from 404.html
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+          return;
+        }
+        
+        // Check if we have an encoded path from 404.html redirect
+        var search = window.location.search;
+        if (search.startsWith('?p=/')) {
+          var route = decodeURIComponent(search.slice(4));
+          
+          // Clean up the route - handle various edge cases
+          if (route.startsWith('/')) {
+            // Extract hash if present
+            var hashIndex = route.indexOf('#');
+            var hash = hashIndex >= 0 ? route.slice(hashIndex) : '';
+            var pathAndSearch = hashIndex >= 0 ? route.slice(0, hashIndex) : route;
+            
+            // Extract search params if present (they come after &)
+            var searchIndex = pathAndSearch.indexOf('&');
+            var pathname = searchIndex >= 0 ? pathAndSearch.slice(0, searchIndex) : pathAndSearch;
+            var searchParams = searchIndex >= 0 ? '?' + pathAndSearch.slice(searchIndex + 1) : '';
+            
+            // Restore the original URL
+            var newUrl = pathname + searchParams + hash;
+            history.replaceState(null, null, newUrl);
+            
+            // Remove the redirect parameter from URL
+            if (window.location.search.includes('p=/')) {
+              var cleanUrl = window.location.origin + newUrl;
+              window.location.replace(cleanUrl);
+            }
+          }
+        }
+      })();
+    </script>
+    
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- Bornelabs-->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+
+  </body>
+</html>
