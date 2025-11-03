@@ -1,0 +1,46 @@
+
+import { Story } from "@/utils/types";
+import { useIsMobile } from "@/hooks/use-mobile";
+import MobileStoryCommentsToggle from "./MobileStoryCommentsToggle";
+import { StoryContent } from "./StoryContent";
+import { CommentsSection } from "@/components/comments/CommentsSection";
+
+interface StoryLayoutContainerProps {
+  story: Story;
+}
+
+export function StoryLayoutContainer({ story }: StoryLayoutContainerProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileStoryCommentsToggle story={story} />;
+  }
+
+  // Desktop layout
+  return (
+    <div className="flex gap-6 h-full">
+      {/* Left Section - Story Content */}
+      <div className="flex-1 lg:w-2/3 flex flex-col min-h-0">
+        <div className="bg-card rounded-xl shadow-sm border border-border flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto scrollbar-hide">
+            <StoryContent story={story} />
+          </div>
+        </div>
+      </div>
+      {/* Right Section - Comments */}
+      <div className="lg:w-1/3 flex flex-col min-h-0">
+        <div className="bg-card rounded-xl shadow-sm border border-border flex flex-col h-full overflow-hidden">
+          <div className="p-4 border-b border-border bg-muted flex-shrink-0">
+            <h3 className="font-semibold text-[#037004] text-xl">Discussion</h3>
+            <p className="text-base text-muted-foreground">Join the conversation</p>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <CommentsSection storyId={story.id} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default StoryLayoutContainer;
